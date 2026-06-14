@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ink-950:       #060504;
+  --color-ink-900:       #0d0b09;
+  --color-ink-800:       #161210;
+  --color-ink-700:       #1e1a16;
+  --color-ink-600:       #2a241e;
+  --color-ink-500:       #3d3328;
+  --color-ink-400:       #564838;
+
+  --color-parchment-50:  #fdf8f0;
+  --color-parchment-100: #f5ead5;
+  --color-parchment-200: #e8d5b7;
+  --color-parchment-300: #d4b896;
+  --color-parchment-400: #b89870;
+
+  --color-cinnabar-400:  #e05040;
+  --color-cinnabar-500:  #c23b2a;
+  --color-cinnabar-600:  #9e2e1e;
+  --color-cinnabar-700:  #7a2016;
+
+  --color-gold-300:      #e0c06a;
+  --color-gold-400:      #c9a44a;
+  --color-gold-500:      #a8832e;
+  --color-gold-600:      #806020;
+
+  --color-jade-400:      #4aaa88;
+  --color-jade-500:      #2e8868;
+
+  --font-title:          var(--font-zcool), serif;
+  --font-serif:          var(--font-noto), serif;
+  --font-sans:           var(--font-noto), sans-serif;
+
+  --animate-fade-up:     fadeUp 0.6s ease both;
+  --animate-fade-in:     fadeIn 0.4s ease both;
+  --animate-float:       float 4s ease-in-out infinite;
+  --animate-shimmer:     shimmer 3s linear infinite;
+
+  @keyframes fadeUp  { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes float   { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes shimmer { from { background-position: -200% center; } to { background-position: 200% center; } }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0d0b09;
+  color: #e8d5b7;
+  -webkit-font-smoothing: antialiased;
 }
+
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: #0d0b09; }
+::-webkit-scrollbar-thumb { background: #3d3328; border-radius: 2px; }
+
+::selection { background: rgba(194,59,42,0.3); color: #f5ead5; }
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #e0c06a, #c9a44a, #a8832e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg, #c9a44a 0%, #f5ead5 40%, #e0c06a 50%, #f5ead5 60%, #c9a44a 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(194,59,42,0.15);
+  border-color: rgba(194,59,42,0.5);
+}
+
+.ink-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #3d3328 30%, #3d3328 70%, transparent);
+}
+.ink-divider::before {
+  content: '◆';
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8px;
+  color: #c9a44a;
+  background: #0d0b09;
+  padding: 0 8px;
+}
+
+.brush-underline { position: relative; display: inline-block; }
+.brush-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #c23b2a, #e05040, #c23b2a);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.brush-underline:hover::after { transform: scaleX(1); }
+
+.anim-trigger { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.anim-trigger.visible { opacity: 1; transform: translateY(0); }
